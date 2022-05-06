@@ -9,6 +9,9 @@
 boolean FlagStart = true;
 boolean StepUI = true;
 boolean StepGive = false;
+boolean checkKit = false;
+
+String KitReceived = "";
 
 void setup(){
   
@@ -48,23 +51,28 @@ void loop(){
           All_String_Code = "";
           StepUI = false;
           StepGive = true;
-          Serial.println("Voice: Code searched");
+          Serial.println("Voice: Code is searched");
        }
     }  
   }
   else if(StepGive){
-     //Write code for reading the data from rasbbery pi
-      String KitReceived = "";
-     
-     ///
-     if(KitReceived == "First kit") DeliverFirst(); 
-     else if(KitReceived == "Second kit") DeliverSecond(); 
-     else if(KitReceived == "Third kit") DeliverThird();
-     else if(KitReceived == "Fourth kit") DeliverFourth();
-     else Serial.println("Voice: Error wrong code");
-     StepGive = false;
-     StepUI = true;
+      if (Serial.available() > 0) {
+        KitReceived = Serial.readString();
+        Serial.println(KitReceived);
+        checkKit = true;
+      }
+
+     if (checkKit){
+       if(KitReceived == "First kit") DeliverFirst();
+       else if(KitReceived == "Second kit") DeliverSecond(); 
+       else if(KitReceived == "Third kit") DeliverThird();
+       else if(KitReceived == "Fourth kit") DeliverFourth();
+       else Serial.println("Voice: Error wrong code");
+       StepGive = false;
+       StepUI = true;
+       checkKit = false;
+       KitReceived = "";
+     }
   }
-  
   delay(2000);
 }

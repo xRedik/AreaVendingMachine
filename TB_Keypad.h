@@ -26,5 +26,4 @@ void ReadCode(char pressed_key){
   All_String_Code += pressed_key;
   Serial.println(pressed_key); //For test purpose
   Serial.println(All_String_Code); //For test purpose
-  Serial.println("{ Code: " + All_String_Code + "}" );
 }

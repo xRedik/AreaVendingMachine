@@ -1,0 +1,7 @@
+Commands to download
+
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install python-pip
+pip install playsound==1.2.2
+pip install pyserial
+pip install pymysql
