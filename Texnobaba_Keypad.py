@@ -4,6 +4,7 @@
 # hits the A-Button, the input is checked.
 
 import RPi.GPIO as GPIO
+from playsound import playsound
 import time
 
 L1 = 5
@@ -18,7 +19,8 @@ C4 = 21
 
 keypadPressed = -1
 jobFinished = False
-secretCode = "4789"
+boolCheck = False
+secretCode = "4789135"
 input = ""
 
 GPIO.setwarnings(False)
@@ -52,14 +54,14 @@ def setAllLines(state):
 
 def checkCode(enteredCode):
     if enteredCode == secretCode:
-        return True
-    return False
+        return True, "FirstKit"
+    return False, None
 
 def checkSpecialKeys():
     global input
     global jobFinished
+
     pressed = False
-    jobFinished = False
     GPIO.output(L3, GPIO.HIGH)
 
     if (GPIO.input(C4) == 1):
@@ -70,18 +72,33 @@ def checkSpecialKeys():
     GPIO.output(L1, GPIO.HIGH)
 
     if (not pressed and GPIO.input(C4) == 1):
-        if checkCode(input):
+        boolCheck, KitName = checkCode(input)
+        if boolCheck:
             print(input)
+            print(KitName)
             print("Code correct!")
+            playsound("Voices/3Second.wav",True) #First Kit Delivered
+
         else:
+            playsound("Voices/3Second.wav",True) #Incorred Code
             print("Incorrect code!")
         pressed = True
         jobFinished = True
 
-    GPIO.output(L3, GPIO.LOW)
+    GPIO.output(L1, GPIO.LOW)
 
     if pressed:
+        print("Code is Cleared")
+        playsound("Voices/3Second.wav",True) #temizlendi
         input = ""
+
+    GPIO.output(L2, GPIO.HIGH)
+
+    if (GPIO.input(C4) == 1):
+        print("Instructions")
+        playsound("Voices/3Second.wav",True) #it will play background if false
+   
+    GPIO.output(L2, GPIO.LOW)
 
     return pressed
 
@@ -89,13 +106,13 @@ def readLine(line, characters):
     global input
     GPIO.output(line, GPIO.HIGH)
     if(GPIO.input(C1) == 1):
-        input = input + characters[0]
+        input += characters[0]
     if(GPIO.input(C2) == 1):
-        input = input + characters[1]
+        input += characters[1]
     if(GPIO.input(C3) == 1):
-        input = input + characters[2]
+        input += characters[2]
     if(GPIO.input(C4) == 1):
-        input = input + characters[3]
+        input += characters[3]
     GPIO.output(line, GPIO.LOW)
 
 def Tb_Keypad():
@@ -114,7 +131,6 @@ def Tb_Keypad():
                 readLine(L3, ["7","8","9","C"])
                 readLine(L4, ["*","0","#","D"])
                 time.sleep(0.1)
-            elif jobFinished:
-                break
+
             else:
                 time.sleep(0.1)

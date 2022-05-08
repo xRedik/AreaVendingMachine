@@ -8,15 +8,13 @@ import Texnobaba_Keypad
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1) #change port
 ser.reset_input_buffer()
 
-playsound("Voices/testValorant.wav", True) #it will play background if false #Greetings
+playsound("Voices/3Second.wav", True) #it will play background if false #Greetings
+print("First")
 time.sleep(1)
-
-BeginningBool = True
+playsound("Voices/testValorant.wav", True) #Please enter the code #A is accept, C is Clear
+print("Second")
 
 while True:
-    if BeginningBool:
-        playsound("Voices/testValorant.wav", True) #Please enter the code #A is accept, C is Clear
-        BeginningBool = False
     Texnobaba_Keypad.Tb_Keypad()
 
 
