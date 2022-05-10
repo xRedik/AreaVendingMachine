@@ -12,7 +12,6 @@ void DeliverFirst(){
     moveRight(1700);
     delay(200);
     moveDown(4900);
-    Serial.println("Voice: First kit was delivered");
 }
 
 void DeliverSecond(){
@@ -24,7 +23,6 @@ void DeliverSecond(){
       s_servo.writeMicroseconds(1500);  // stop
       delay(500);
       moveDown(4900);
-      Serial.println("Voice: Second kit was delivered");
 }
 
 void DeliverThird(){
@@ -41,8 +39,6 @@ void DeliverThird(){
       moveRight(1700);
       delay(200);
       moveDown(2200);
-      Serial.println("Voice: Third kit was delivered");
-
 }
 
 void DeliverFourth(){
@@ -54,5 +50,4 @@ void DeliverFourth(){
       ft_servo.writeMicroseconds(1500);  // stop
       delay(500);
       moveDown(2200);
-      Serial.println("Voice: Fourth kit was delivered");
 }

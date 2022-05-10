@@ -31,7 +31,8 @@ C4 = 21
 keypadPressed = -1
 jobFinished = False
 boolCheck = False
-secretCode = "4789135"
+secretCodeS = [("123456","First Kit"),("234567","Second Kit"),
+               ("345678","Third Kit"),("456789","Fourth Kit")]
 input = ""
 
 GPIO.setwarnings(False)
@@ -64,8 +65,9 @@ def setAllLines(state):
     GPIO.output(L4, state)
 
 def checkCode(enteredCode):
-    if enteredCode == secretCode:
-        return True, "FirstKit"
+    for code in secretCodeS:
+        if code[0] == enteredCode:
+            return True, code[1]
     return False, None
 
 def checkSpecialKeys():
