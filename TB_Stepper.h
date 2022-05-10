@@ -1,8 +1,8 @@
 //change pins
-#define DIR_PIN_Vertical 0
-#define STEP_PIN_Vertical 1
+#define DIR_PIN_Vertical 3
+#define STEP_PIN_Vertical 6
 #define DIR_PIN_Horizontal 2
-#define STEP_PIN_Horizontal 3
+#define STEP_PIN_Horizontal 5
 ///
 
 void moveUp (int steps) {

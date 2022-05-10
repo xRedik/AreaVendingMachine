@@ -6,11 +6,7 @@
 #include "TB_Servo.h"
 #include "TB_Vender.h"
 
-boolean FlagStart = true;
-boolean StepUI = true;
-boolean StepGive = false;
 boolean checkKit = false;
-
 String KitReceived = "";
 
 void setup(){
@@ -26,53 +22,23 @@ void setup(){
   s_servo.attach(PIN_SECOND_SERVO);
   th_servo.attach(PIN_THIRD_SERVO);
   ft_servo.attach(PIN_FOURTH_SERVO);
-    
-  Serial.println("Voice: Greetings");
+
 }
   
 void loop(){
-
-  if(StepUI){
-    
-    char pressed_key = Tb_Keypad.getKey();
-    
-    if (pressed_key && FlagStart){
-      Serial.println(pressed_key);
-      if(pressed_key == CODE_STARTING_CHARACTER){
-        Serial.println("Voice: Enter the Code");
-        FlagStart = false;
-      }
-    }
-    
-    else if(pressed_key){
-       ReadCode(pressed_key);
-       if(pressed_key == CODE_FINISHING_CHARACTER){
-          Serial.println("Code: " + All_String_Code);
-          All_String_Code = "";
-          StepUI = false;
-          StepGive = true;
-          Serial.println("Voice: Code is searched");
-       }
-    }  
+  if (Serial.available() > 0) {
+    KitReceived = Serial.readStringUntil('\n');
+    Serial.println(KitReceived);
+    checkKit = true;
   }
-  else if(StepGive){
-      if (Serial.available() > 0) {
-        KitReceived = Serial.readString();
-        Serial.println(KitReceived);
-        checkKit = true;
-      }
 
-     if (checkKit){
-       if(KitReceived == "First kit") DeliverFirst();
-       else if(KitReceived == "Second kit") DeliverSecond(); 
-       else if(KitReceived == "Third kit") DeliverThird();
-       else if(KitReceived == "Fourth kit") DeliverFourth();
-       else Serial.println("Voice: Error wrong code");
-       StepGive = false;
-       StepUI = true;
-       checkKit = false;
-       KitReceived = "";
-     }
+  if (checkKit){
+    if(KitReceived == "First kit") DeliverFirst();
+    else if(KitReceived == "Second kit") DeliverSecond(); 
+    else if(KitReceived == "Third kit") DeliverThird();
+    else if(KitReceived == "Fourth kit") DeliverFourth();
+    checkKit = false;
+    KitReceived = "";
   }
   delay(2000);
 }
