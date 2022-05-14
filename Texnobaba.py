@@ -16,7 +16,6 @@ import Texnobaba
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1) #change port
 ser.reset_input_buffer()
 
-
 #change pins
 L1 = 5
 L2 = 6
